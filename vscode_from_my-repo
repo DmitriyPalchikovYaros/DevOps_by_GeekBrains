@@ -1,0 +1,54 @@
+emerge --sync - синхронизируем
+
+eix-update - обновляем eix
+
+emerge -uvpDN @system @world - проверяем обновления системы
+
+emerge -uDN @system @world - устанавливаем обновления системы
+
+emerge app-eselect/eselect-repository - устанавливаем пакет для создания репозиторев
+
+eselect repository create my-repo - создаем свой репозиторий
+
+cd /etc/portage/package.accept_keywords/ - переходим в папку
+
+/etc/portage/package.accept_keywords # touch package.accept_keywords - создаем файл 
+
+eix-remote update - при необходимости
+
+eix -R vscode
+
+emerge dev-vcs/git - устанавливаем гит
+
+git clone https://github.com/PF4Public/gentoo-overlay.git
+
+cd /var/db/repos/my-repo/
+
+/var/db/repos/my-repo # mkdir -p app-editors/vscode
+
+cp ~/gentoo-overlay/app-editor/vscode/vscode-1~.ebuild (версия пакета) /var/db/repos/my-repo/app-editors/vscode - копируем файл vscode, в моем случае была версия 1.76
+
+cp ~/gentoo-overlay/app-editor/vscode/vscode/files /var/db/repos/my-repo/app-editors/vscode - копируем папку /files
+
+/var/db/repos/my-repo/app-editors/vscode # ebuild vscode-1.76.0.ebuild digest - проверяем контрольную сумму. Результат выполненой команды - создание файла Manifest
+
+eix-update - пересчитываем хэши
+
+eix vscode
+
+emerge -vp app-editors/vscode
+
+/var/db/repos/my-repo # mkdir -p dev-util/electron - создаем в своем репозитории папки для электрона
+
+cp ~/gentoo-overlay/dev-util/electron/(версия пакета) /var/db/repos/my-repo/dev-util/electron/ - копируем электрон. В моем случае система просила 19 версии
+
+cp ~/gentoo-overlay/dev-util/electron/files/ /var/db/repos/my-repo/dev-util/electron/ - копируем папку /files
+
+ebuild electron (ваша версия).ebuild digest - пересчитываем хэш сумму
+
+emerge -vp app-editors/vscode - проверяем еще раз все ошибки. Возможно потребуется отправить некоторые файлы в /etc/portage/package.use/package.use 
+echo "<your text>" >> /etc/portage/package.use/package.use 
+
+emerge -vp app-editors/vscode - еще раз проверяем, если ошибок нет то устанавливаем
+
+emerge app-editors/vscode - установка
